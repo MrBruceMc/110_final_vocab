@@ -14,43 +14,75 @@
   <title>Vocabulary Practice Units 4–6</title>
   <style>
     :root {
-      --bg: linear-gradient(135deg, #dbeafe 0%, #ede9fe 50%, #fce7f3 100%);
-      --card: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --border: #d1d5db;
+      --bg: linear-gradient(135deg, #fff1eb 0%, #ffd7ba 35%, #ff9a76 68%, #c2410c 100%);
+      --card: rgba(255, 255, 255, 0.94);
+      --card-soft: rgba(255, 247, 237, 0.9);
+      --text: #2f1b12;
+      --muted: #7c4a32;
+      --border: rgba(251, 146, 60, 0.28);
       --correct: #15803d;
       --incorrect: #b91c1c;
-      --button: #2563eb;
-      --button-hover: #1d4ed8;
+      --button: linear-gradient(135deg, #f97316 0%, #dc2626 100%);
+      --button-hover: linear-gradient(135deg, #ea580c 0%, #b91c1c 100%);
+      --option: #fff7ed;
+      --option-hover: #ffedd5;
+      --option-border: #fdba74;
+      --shadow: 0 18px 45px rgba(124, 45, 18, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: "Inter", "Segoe UI", Arial, sans-serif;
       background: var(--bg);
+      background-attachment: fixed;
       min-height: 100vh;
       color: var(--text);
       line-height: 1.5;
     }
 
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.45), transparent 28%),
+        radial-gradient(circle at 80% 20%, rgba(255, 237, 213, 0.5), transparent 26%),
+        radial-gradient(circle at 50% 90%, rgba(127, 29, 29, 0.18), transparent 35%);
+    }
+
     .container {
-      max-width: 850px;
+      width: min(920px, 100%);
       margin: 0 auto;
-      padding: 24px;
+      padding: 28px 18px;
+      position: relative;
     }
 
     .card {
       background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
     }
 
     h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.9rem, 5vw, 3rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      color: #7c2d12;
+    }
+
+    h1 + p {
       margin-top: 0;
-      font-size: 1.8rem;
+      color: var(--muted);
+      font-size: 1.05rem;
     }
 
     h2 {
@@ -60,16 +92,32 @@
 
     .controls {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 12px;
-      margin: 18px 0;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: 14px;
+      margin: 22px 0;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      color: #7c2d12;
+      font-weight: 700;
+      font-size: 0.92rem;
     }
 
     select, button {
+      width: 100%;
       font-size: 1rem;
-      padding: 12px;
-      border-radius: 10px;
+      padding: 13px 14px;
+      border-radius: 16px;
       border: 1px solid var(--border);
+      font-family: inherit;
+    }
+
+    select {
+      background: #fffaf5;
+      color: var(--text);
+      min-height: 48px;
     }
 
     button {
@@ -77,53 +125,82 @@
       background: var(--button);
       color: white;
       border: none;
-      font-weight: 600;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      box-shadow: 0 8px 18px rgba(194, 65, 12, 0.24);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
     }
 
-    button:hover {
+    button:hover:not(:disabled) {
       background: var(--button-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(194, 65, 12, 0.28);
+    }
+
+    button:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      cursor: default;
+      opacity: 0.9;
     }
 
     button.secondary {
-      background: #4b5563;
+      background: linear-gradient(135deg, #7c2d12 0%, #9a3412 100%);
     }
 
-    button.secondary:hover {
-      background: #374151;
+    button.secondary:hover:not(:disabled) {
+      background: linear-gradient(135deg, #64210d 0%, #7c2d12 100%);
     }
 
     .quiz-area {
       display: none;
-      margin-top: 18px;
+      margin-top: 22px;
     }
 
     .meta {
-      color: var(--muted);
-      font-size: 0.95rem;
+      display: inline-block;
+      color: #9a3412;
+      background: #ffedd5;
+      border: 1px solid #fed7aa;
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 0.92rem;
+      font-weight: 700;
       margin-bottom: 12px;
     }
 
     .question {
-      font-size: 1.35rem;
-      font-weight: 700;
-      margin: 18px 0;
+      font-size: clamp(1.25rem, 4vw, 1.75rem);
+      font-weight: 850;
+      line-height: 1.28;
+      margin: 20px 0;
+      padding: 20px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #fff7ed 0%, #fff1eb 100%);
+      border: 1px solid #fed7aa;
     }
 
     .options {
       display: grid;
-      gap: 12px;
+      gap: 13px;
     }
 
     .option-btn {
       text-align: left;
-      background: #eef2ff;
+      background: var(--option);
       color: var(--text);
-      border: 1px solid #c7d2fe;
-      font-weight: 600;
+      border: 1px solid var(--option-border);
+      font-weight: 800;
+      box-shadow: none;
+      min-height: 54px;
     }
 
-    .option-btn:hover {
-      background: #dbeafe;
+    .option-btn:hover:not(:disabled) {
+      background: var(--option-hover);
+      color: #7c2d12;
+      box-shadow: 0 8px 18px rgba(251, 146, 60, 0.18);
     }
 
     .option-btn.correct {
@@ -139,44 +216,56 @@
     }
 
     .feedback {
-      min-height: 80px;
-      margin-top: 16px;
-      padding: 14px;
-      border-radius: 12px;
-      background: #f3f4f6;
+      min-height: 82px;
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--card-soft);
+      border: 1px solid #fed7aa;
+      color: var(--text);
     }
 
     .feedback.correct-text {
-      border-left: 6px solid var(--correct);
+      border-left: 8px solid var(--correct);
+      background: #f0fdf4;
     }
 
     .feedback.incorrect-text {
-      border-left: 6px solid var(--incorrect);
+      border-left: 8px solid var(--incorrect);
+      background: #fff1f2;
     }
 
     .stats {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 10px;
-      margin-top: 14px;
+      gap: 12px;
+      margin-top: 16px;
     }
 
     .stat {
-      background: #f9fafb;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px;
+      background: rgba(255, 250, 245, 0.9);
+      border: 1px solid #fed7aa;
+      border-radius: 18px;
+      padding: 13px 10px;
       text-align: center;
     }
 
     .stat strong {
       display: block;
-      font-size: 1.3rem;
+      font-size: 1.45rem;
+      color: #c2410c;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 700;
     }
 
     .small {
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.92rem;
+      font-weight: 650;
     }
 
     .hidden {
@@ -189,11 +278,39 @@
       }
 
       .card {
-        padding: 16px;
+        padding: 18px;
+        border-radius: 22px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h1 + p {
+        font-size: 0.98rem;
+      }
+
+      .controls {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      select, button {
+        min-height: 52px;
+        font-size: 1rem;
       }
 
       .question {
-        font-size: 1.15rem;
+        padding: 16px;
+        font-size: 1.25rem;
+      }
+
+      .option-btn {
+        min-height: 58px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
@@ -231,7 +348,7 @@
             <option value="15">15</option>
             <option value="20">20</option>
             <option value="30">30</option>
-            <option value="999">Practice Until I Stop</option>
+            <option value="999" selected="">Practice Until I Stop</option>
           </select>
         </label>
       </div>
