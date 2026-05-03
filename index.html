@@ -636,4 +636,39 @@
       const missed = Object.entries(missedWords)
         .filter(([_, count]) => count > 0)
         .map(([word]) => word);
-      if (!missed.length) return 'Great work. No review wo
+      if (!missed.length) return 'Great work. No review words.';
+      return `Review these words: ${missed.join(', ')}`;
+    }
+
+    function initializeApp() {
+      try {
+        if (!startBtn || !nextBtn || !restartBtn || !quizArea || !questionEl || !optionsEl || !feedbackEl || !metaEl) {
+          throw new Error('One or more required page elements were not found.');
+        }
+
+        startBtn.addEventListener('click', startQuiz);
+        nextBtn.addEventListener('click', showQuestion);
+        restartBtn.addEventListener('click', startQuiz);
+      } catch (error) {
+        const errorBox = document.createElement('div');
+        errorBox.style.marginTop = '16px';
+        errorBox.style.padding = '14px';
+        errorBox.style.borderRadius = '12px';
+        errorBox.style.background = '#fee2e2';
+        errorBox.style.color = '#991b1b';
+        errorBox.style.fontWeight = '700';
+        errorBox.textContent = 'App error: ' + error.message;
+        document.querySelector('.card').appendChild(errorBox);
+        console.error(error);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializeApp);
+    } else {
+      initializeApp();
+    }
+  </script>
+
+
+</body></html>
